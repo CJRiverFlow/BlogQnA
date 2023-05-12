@@ -3,15 +3,15 @@ This models contains an implementation of the finetuned gpt model as a console a
 """
 
 from model_query import get_model_answer
+from constants import QUIT_CONSOLE
 
 if __name__ == "__main__":
     print("\033[1;33m" + "Welcome to the QnA system" + "\033[0m")
-    KEEP_ALIVE = True
-    while KEEP_ALIVE:
+    while True:
         user_input = input(
-            "BOT >> What would you like to know? --Write 'quit' to exit--\n"
+            f"BOT >> What would you like to know? --Write {QUIT_CONSOLE} to exit--\n"
         )
-        if user_input == "quit":
+        if user_input == QUIT_CONSOLE:
             break
         answer = get_model_answer(user_input)
         if not answer:

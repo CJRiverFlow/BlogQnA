@@ -6,14 +6,15 @@ import requests
 import argparse
 from bs4 import BeautifulSoup
 
+from constants import TRAINING_DATA_PATH, WEBSITE_BASE_URL
 
-def scraper(posts):
+
+def scraper(posts: int) -> None:
     """
     Main scrapper function
     """
-    BASE_URL = "https://improvado.io"
-    OUTPUT_FILE = "data/blogposts.txt"
-    url = f"{BASE_URL}/blog"
+    url = f"{WEBSITE_BASE_URL}/blog"
+    print(url)
     page = requests.get(url)
     soup = BeautifulSoup(page.content, "html.parser")
 
@@ -24,20 +25,20 @@ def scraper(posts):
 
     posts = min(posts, len(list_items))
 
-    with open(OUTPUT_FILE, "w") as f:
+    with open(TRAINING_DATA_PATH, "w") as f:
         for post in list_items[:posts]:
             link = post.find("a")["href"]
-            full_url = f"{BASE_URL}{link}"
+            full_url = f"{WEBSITE_BASE_URL}{link}"
             print(f"Processing post: {full_url}")
             post_page = requests.get(full_url)
             post_soup = BeautifulSoup(post_page.content, "html.parser")
             content_div = post_soup.find("div", id="content")
             rich_text_div = content_div.find("div", class_="c-rich-text-blog")
             paragraphs = rich_text_div.find_all("p")
-            text_content = "\n\n".join([p.get_text() for p in paragraphs])
+            text_content = "\n".join([p.get_text() for p in paragraphs])
             f.write(text_content + "\n\n")
 
-    print(f"Content of {posts} posts saved to {OUTPUT_FILE}")
+    print(f"Content of {posts} posts saved to {TRAINING_DATA_PATH}")
 
 
 if __name__ == "__main__":

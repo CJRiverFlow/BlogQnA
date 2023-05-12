@@ -7,9 +7,11 @@ import nltk
 from nltk.translate.bleu_score import sentence_bleu
 from transformers import AutoTokenizer, AutoModelWithLMHead
 
+from constants import TRAINED_MODEL_PATH, TEST_QUESTIONS_PATH
+
 nltk.download("punkt")
-tokenizer = AutoTokenizer.from_pretrained("models/fine_tuned_model")
-model = AutoModelWithLMHead.from_pretrained("models/fine_tuned_model")
+tokenizer = AutoTokenizer.from_pretrained(TRAINED_MODEL_PATH)
+model = AutoModelWithLMHead.from_pretrained(TRAINED_MODEL_PATH)
 
 
 def compute_score(expected_answer, generated_answer):
@@ -29,7 +31,7 @@ def generate_response(prompt):
 
 def test():
     # Load the test data from a CSV file
-    with open("data/test_questions.csv", "r") as f:
+    with open(TEST_QUESTIONS_PATH, "r") as f:
         reader = csv.DictReader(f)
         test_data = list(reader)
 

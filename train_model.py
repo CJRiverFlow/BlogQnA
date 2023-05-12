@@ -4,16 +4,18 @@ This script contains the process for training the machine learning model
 
 import torch
 import argparse
-from torch.optim import AdamW
-from transformers import AutoTokenizer, AutoModelWithLMHead
+# from torch.optim import 
+from transformers import AutoTokenizer, AutoModelWithLMHead, AdamW
+
+from constants import TRAINED_MODEL_PATH, BASE_MODEL, TRAINING_DATA_PATH
 
 
 def train(epochs: int, device: str):
-    tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-medium")
-    model = AutoModelWithLMHead.from_pretrained("microsoft/DialoGPT-medium")
+    tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL)
+    model = AutoModelWithLMHead.from_pretrained(BASE_MODEL)
 
     # Load your training data from a text file
-    with open("data/blogposts.txt", "r") as f:
+    with open(TRAINING_DATA_PATH, "r") as f:
         train_data = f.read().split("\n")
 
     # Set the pad_token attribute of the tokenizer to the eos_token
@@ -45,8 +47,8 @@ def train(epochs: int, device: str):
             print(f"Batch: {batch_num+1}/{len(input_ids)}, Loss: {loss.item()}")
 
     # Save the fine-tuned model
-    model.save_pretrained("models/fine_tuned_model")
-    tokenizer.save_pretrained("models/fine_tuned_model")
+    model.save_pretrained(TRAINED_MODEL_PATH)
+    tokenizer.save_pretrained(TRAINED_MODEL_PATH)
 
 
 if __name__ == "__main__":
@@ -54,7 +56,7 @@ if __name__ == "__main__":
         description="This script is for training the machine learning model"
     )
     parser.add_argument("--epochs", type=int, help="number of training epochs")
-    parser.add_argument("--gpu", action='store_true', help="use gpu for training")
+    parser.add_argument("--gpu", action="store_true", help="use gpu for training")
     args = parser.parse_args()
 
     device = torch.device("cuda" if args.gpu and torch.cuda.is_available() else "cpu")

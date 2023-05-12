@@ -132,3 +132,6 @@ models/*
 
 # vscode config
 .vscode
+
+#zip files
+*.zip

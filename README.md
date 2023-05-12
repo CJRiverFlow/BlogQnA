@@ -20,7 +20,7 @@ Install the dependencies by running `pip install -r requirements.txt`
 
 ## Scrapping the training data
 
-We will use blogposts content used to build the `data/blogposts.txt` file used for training, this content will be generated from the scraper script: `python scrapper --posts 20` where posts is the number of post to include from 'https://improvado.io'.
+We will use blogposts content used to build the `data/blogposts.txt` file used for training, this content will be generated from the scraper script: `python scrapper.py --posts 20` where posts is the number of post to include from 'https://improvado.io'.
 
 ## Training the GPT model
 
@@ -28,13 +28,14 @@ The create a new model run the training script with: `python train_model.py --ep
 
 Add the `--gpu` flag to `python train_model.py` for training on gpu.
 
-The training process could long and a good way to train the model using gpu is with google colab, I have adapted the training process in the following notebook using gpu: `url`, at the end the model can be dowloaded and moved to the `models` folder.
+The training process can be long, and a good way to train the model using a GPU is with Google Colab. I have adapted the training process in the following notebook using a GPU: `url`. At the end, the model can be downloaded and moved to the repository directory and decompressed with `unzip fine_tuned_model.zip`. The model and tokenizer will be saved in the models folder.
 
-I have fine-tunned a model with the first 20 blogposts and 20 epochs, this is available here: `url` 
+I have fine-tunned a model with the first 20 blogposts and 10 epochs, this is available here: `https://colab.research.google.com/drive/15xZfcNWBrs13iMiEsTlXPO5269hUjaHZ?usp=sharing` 
 
 ## Test the console application
 
-The console application can be tested by running: `python main.py`, example:  
+The console application can be tested by running: `python main.py`, it could take some seconds to load the models.   
+Example:  
 ![console example](images/test_1.png)
 
 ## Model evaluation

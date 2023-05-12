@@ -2,15 +2,13 @@
 This file contains the functions needed to utilize the model and get the output response
 """
 
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, AutoModelWithLMHead
+from constants import TRAINED_MODEL_PATH, BASE_MODEL
 
-tokenizer = AutoTokenizer.from_pretrained(
-    "models/fine_tuned_model", padding_side="left"
-)
-model = AutoModelForCausalLM.from_pretrained("models/fine_tuned_model")
+tokenizer = AutoTokenizer.from_pretrained(TRAINED_MODEL_PATH)
+model = AutoModelForCausalLM.from_pretrained(TRAINED_MODEL_PATH)
 
-
-def get_model_answer(user_input):
+def get_model_answer(user_input: str) -> str:
     # encode the user input and generate a response
     input_ids = tokenizer.encode(user_input + tokenizer.eos_token, return_tensors="pt")
     chat_response_ids = model.generate(
